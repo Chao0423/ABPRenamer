@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ABPRenamer.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,6 +33,8 @@ namespace ABPRenamer
         {
             Arguments arguments = new Arguments
             {
+                Filter = txtFilter.Text.Trim(),
+
                 OldCompanyName = txtOldCompanyName.Text.Trim(),
                 OldProjectName = txtOldProjectName.Text.Trim(),
                 OldAreaName = txtOldAreaName.Text.Trim(),
@@ -135,7 +138,7 @@ namespace ABPRenamer
             sp.Stop();
             Log($"================= File name and content renaming completed =================time spent: {sp.ElapsedMilliseconds}(s)\r\n");
 
-            Log($"================= Completed =================Time-spent catalog:{ spdir }s File time spent: { sp.ElapsedMilliseconds}s\r\n");
+            Log($"================= Completed =================Time-spent catalog:{spdir}s File time spent: {sp.ElapsedMilliseconds}s\r\n");
         }
 
         /// <summary>
@@ -214,7 +217,7 @@ namespace ABPRenamer
                     RenameAllDir(worker, e, arguments);
 
                     DirectoryInfo dinfo = new DirectoryInfo(currDir);
-                    if (dinfo.Name.Contains(arguments.OldCompanyName) || 
+                    if (dinfo.Name.Contains(arguments.OldCompanyName) ||
                     dinfo.Name.Contains(arguments.OldProjectName) ||
                     (chk.Checked && dinfo.Name.Contains(arguments.OldAreaName)))
                     {
@@ -227,7 +230,7 @@ namespace ABPRenamer
                         newName = newName.Replace(arguments.OldProjectName, arguments.NewProjectName);
 
                         if (chk.Checked)
-                          newName = newName.Replace(arguments.OldAreaName, arguments.NewAreaName);
+                            newName = newName.Replace(arguments.OldAreaName, arguments.NewAreaName);
 
                         string newPath = Path.Combine(dinfo.Parent.FullName, newName);
 
@@ -255,7 +258,7 @@ namespace ABPRenamer
         private void RenameAllFileNameAndContent(BackgroundWorker worker, DoWorkEventArgs e, Arguments arguments)
         {
             //Get all files with the specified file extension in the current directory
-            List<FileInfo> files = new DirectoryInfo(arguments.RootDir).GetFiles().Where(m => arguments.filter.Contains(m.Extension)).ToList();
+            List<FileInfo> files = new DirectoryInfo(arguments.RootDir).GetFiles().Where(m => arguments.Filter.Contains(m.Extension)).ToList();
 
             int i = 0;
             //Rename current directory file and file content
@@ -278,9 +281,9 @@ namespace ABPRenamer
 
                     text = text.Replace(arguments.OldProjectName, arguments.NewProjectName);
                     if (chk.Checked)
-                      text = text.Replace(arguments.OldAreaName, arguments.NewAreaName);
+                        text = text.Replace(arguments.OldAreaName, arguments.NewAreaName);
 
-                    if (item.Name.Contains(arguments.OldCompanyName) || 
+                    if (item.Name.Contains(arguments.OldCompanyName) ||
                     item.Name.Contains(arguments.OldProjectName) ||
                     (chk.Checked && item.Name.Contains(arguments.OldAreaName)))
                     {
@@ -293,7 +296,7 @@ namespace ABPRenamer
                         }
                         newName = newName.Replace(arguments.OldProjectName, arguments.NewProjectName);
                         if (chk.Checked)
-                          newName = newName.Replace(arguments.OldAreaName, arguments.NewAreaName);
+                            newName = newName.Replace(arguments.OldAreaName, arguments.NewAreaName);
                         string newFullName = Path.Combine(item.DirectoryName, newName);
 
                         if (newFullName != item.FullName)
@@ -371,38 +374,38 @@ namespace ABPRenamer
 
             if (!string.IsNullOrWhiteSpace(txtFilter.Text))
             {
-                Settings.Default.setFilter = txtFilter.Text.Trim();
+                Settings.Default.Filter = txtFilter.Text.Trim();
             }
             if (!string.IsNullOrWhiteSpace(txtOldCompanyName.Text))
             {
-                Settings.Default.setOldCompanyName = txtOldCompanyName.Text.Trim();
+                Settings.Default.OldCompanyName = txtOldCompanyName.Text.Trim();
             }
             if (!string.IsNullOrWhiteSpace(txtOldProjectName.Text))
             {
-                Settings.Default.setOldProjectName = txtOldProjectName.Text.Trim();
+                Settings.Default.OldProjectName = txtOldProjectName.Text.Trim();
             }
             if (!string.IsNullOrWhiteSpace(txtOldAreaName.Text))
             {
-                Settings.Default.setOldAreaName = txtOldAreaName.Text.Trim();
+                Settings.Default.OldAreaName = txtOldAreaName.Text.Trim();
             }
             if (!string.IsNullOrWhiteSpace(txtRootDir.Text))
             {
-                Settings.Default.setRootDir = txtRootDir.Text.Trim();
+                Settings.Default.RootDir = txtRootDir.Text.Trim();
             }
-            Settings.Default.setNewCompanyName = txtNewCompanyName.Text.Trim();
+            Settings.Default.NewCompanyName = txtNewCompanyName.Text.Trim();
             if (!string.IsNullOrWhiteSpace(txtNewProjectName.Text))
             {
-                Settings.Default.setNewProjectName = txtNewProjectName.Text.Trim();
+                Settings.Default.NewProjectName = txtNewProjectName.Text.Trim();
             }
             if (!string.IsNullOrWhiteSpace(txtNewAreaName.Text))
             {
-                Settings.Default.setNewAreaName = txtNewAreaName.Text.Trim();
+                Settings.Default.NewAreaName = txtNewAreaName.Text.Trim();
             }
 
             if (e is MyEventArgs)
             {
-                Settings.Default.setOldCompanyName = txtNewCompanyName.Text.Trim();
-                Settings.Default.setOldProjectName = txtNewProjectName.Text.Trim();
+                Settings.Default.OldCompanyName = txtNewCompanyName.Text.Trim();
+                Settings.Default.OldProjectName = txtNewProjectName.Text.Trim();
             }
 
             Settings.Default.Save();
@@ -413,37 +416,37 @@ namespace ABPRenamer
         #region Start load settings
         private void FormMain_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setFilter))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.Filter))
             {
-                txtFilter.Text = Settings.Default.setFilter.Trim();
+                txtFilter.Text = Settings.Default.Filter.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setOldCompanyName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.OldCompanyName))
             {
-                txtOldCompanyName.Text = Settings.Default.setOldCompanyName.Trim();
+                txtOldCompanyName.Text = Settings.Default.OldCompanyName.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setOldProjectName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.OldProjectName))
             {
-                txtOldProjectName.Text = Settings.Default.setOldProjectName.Trim();
+                txtOldProjectName.Text = Settings.Default.OldProjectName.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setOldAreaName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.OldAreaName))
             {
-                txtOldAreaName.Text = Settings.Default.setOldAreaName.Trim();
+                txtOldAreaName.Text = Settings.Default.OldAreaName.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setRootDir))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.RootDir))
             {
-                txtRootDir.Text = Settings.Default.setRootDir.Trim();
+                txtRootDir.Text = Settings.Default.RootDir.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setNewCompanyName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.NewCompanyName))
             {
-                txtNewCompanyName.Text = Settings.Default.setNewCompanyName.Trim();
+                txtNewCompanyName.Text = Settings.Default.NewCompanyName.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setNewProjectName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.NewProjectName))
             {
-                txtNewProjectName.Text = Settings.Default.setNewProjectName.Trim();
+                txtNewProjectName.Text = Settings.Default.NewProjectName.Trim();
             }
-            if (!string.IsNullOrWhiteSpace(Settings.Default.setNewAreaName))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.NewAreaName))
             {
-                txtNewAreaName.Text = Settings.Default.setNewAreaName.Trim();
+                txtNewAreaName.Text = Settings.Default.NewAreaName.Trim();
             }
         }
         #endregion
@@ -451,7 +454,7 @@ namespace ABPRenamer
         #region Restore Defaults
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            txtFilter.Text = ".cs,.cshtml,.js,.ts,.csproj,.sln,.xml,.config,.DotSettings,.json,.xaml,.txt,.html,.gitignore,.ps1,.md,.plist";
+            txtFilter.Text = Arguments.DefaultFilter;
         }
 
         #endregion
@@ -505,23 +508,24 @@ namespace ABPRenamer
             Log("V.2.10, 05/07/2019, Added xaml files as default, added change log button\n");
             Log("V.2.11, 20/08/2019, Added txt, html, gitignore, ps1, md, plist files as default, added change log button\n");
         }
-  }
-  public class Arguments
-  {
-      public readonly string filter = ".cs,.cshtml,.js,.ts,.csproj,.sln,.xml,.config,.DotSettings,.json,.xaml,.txt,.html,.gitignore,.ps1,.md,.plist,.razor";
-      
-      private string _oldCompanyName = "MyCompanyName";
-      public string OldCompanyName
-      {
-          get => string.IsNullOrWhiteSpace(NewCompanyName) ? _oldCompanyName + "." : _oldCompanyName;
-          set => _oldCompanyName = value;
+    }
+    public class Arguments
+    {
+        public const string DefaultFilter = ".cs,.cshtml,.js,.ts,.csproj,.sln,.xml,.config,.DotSettings,.json,.xaml,.txt,.html,.gitignore,.ps1,.md,.plist,.razor";
 
-      }
-      public string OldProjectName { get; set; } = "AbpZeroTemplate";
-      public string NewCompanyName { get; set; }
-      public string NewProjectName { get; set; }
-      public string OldAreaName { get; set; } = "AppAreaName";
-      public string NewAreaName { get; set; } = "App";
-      public string RootDir { get; set; }
-  }
+        private string _oldCompanyName = "MyCompanyName";
+        public string OldCompanyName
+        {
+            get => string.IsNullOrWhiteSpace(NewCompanyName) ? _oldCompanyName + "." : _oldCompanyName;
+            set => _oldCompanyName = value;
+
+        }
+        public string Filter { get; set; } = DefaultFilter;
+        public string OldProjectName { get; set; } = "AbpZeroTemplate";
+        public string NewCompanyName { get; set; }
+        public string NewProjectName { get; set; }
+        public string OldAreaName { get; set; } = "AppAreaName";
+        public string NewAreaName { get; set; } = "App";
+        public string RootDir { get; set; }
+    }
 }
