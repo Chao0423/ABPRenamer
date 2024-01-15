@@ -508,7 +508,7 @@ namespace ABPRenamer
   }
   public class Arguments
   {
-      public readonly string filter = ".cs,.cshtml,.js,.ts,.csproj,.sln,.xml,.config,.DotSettings,.json,.xaml,.txt,.html,.gitignore,.ps1,.md,.plist";
+      public readonly string filter = ".cs,.cshtml,.js,.ts,.csproj,.sln,.xml,.config,.DotSettings,.json,.xaml,.txt,.html,.gitignore,.ps1,.md,.plist,.razor";
       
       private string _oldCompanyName = "MyCompanyName";
       public string OldCompanyName
