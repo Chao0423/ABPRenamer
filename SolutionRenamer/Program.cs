@@ -61,7 +61,7 @@ namespace SolutionRenamer
 	        }
 
 
-			Console.WriteLine("Input folder(D:\aspnet-zero-core-6.9.0):");
+			Console.WriteLine("Input folder(D:\\aspnet-zero-core-6.9.0):");
 	        var rootDir = Console.ReadLine();
 
 			Stopwatch sp=new Stopwatch();
